@@ -17,10 +17,10 @@ public class Node {
     
     Node(String nama){
         this.id=nama;
-        this.AdjList = new ArrayList<Adj>();
+        this.AdjList = new ArrayList<>();
     }
     
-    void add_adj(Node tujuan, int weight, int line){
+    void add_adj(String tujuan, int weight, int line){
         AdjList.add(new Adj(tujuan, weight, line));
     }
     

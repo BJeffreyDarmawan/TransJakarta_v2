@@ -43,17 +43,19 @@ public class main {
         g.add_node(a);
         
         //from, to, weight, line
-        g.add_edge("halte1", "halte2", 0, 0);
-        g.add_edge("halte1", "halte3", 0, 0);
-        g.add_edge("halte1", "halte4", 0, 0);
-        g.add_edge("halte2", "halte3", 0, 0);
-        g.add_edge("halte2", "halte5", 0, 0);
-        g.add_edge("halte3", "halte4", 0, 0);
-        g.add_edge("halte3", "halte5", 0, 0);
-        g.add_edge("halte3", "halte6", 0, 0);
-        g.add_edge("halte4", "halte6", 0, 0);
+        g.add_edge("halte1", "halte2", 9, 0);
+        g.add_edge("halte1", "halte3", 1, 0);
+        g.add_edge("halte1", "halte4", 5, 0);
+        g.add_edge("halte2", "halte3", 2, 0);
+        g.add_edge("halte2", "halte5", 5, 0);
+        g.add_edge("halte3", "halte4", 5, 0);
+        g.add_edge("halte3", "halte5", 5, 0);
+        g.add_edge("halte3", "halte6", 5, 0);
+        g.add_edge("halte4", "halte6", 5, 0);
         
         g.show_adjList();
+        
+        g.find_route("halte1", "halte2");
         
 ////        unsortMap.put("D", "d");
 ////        unsortMap.put("E", "e");

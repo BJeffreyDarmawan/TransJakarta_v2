@@ -10,13 +10,14 @@ package transjakarta_v2;
  * @author Lenovo
  */
 public class Adj {
-    Node tujuan;
+    String tujuan;
     int weight;
     int line;
     
-    Adj(Node tujuan, int weight, int line){
+    Adj(String tujuan, int weight, int line){
         this.tujuan = tujuan;
         this.weight = weight;
         this.line = line;
+        System.out.println(this.weight);
     }
 }
