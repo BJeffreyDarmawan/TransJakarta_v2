@@ -2,8 +2,8 @@
 using namespace std;
 
 vector<pair<int, int> > halteList[1000];
-map<string, int> code_name;
-map<int, string> name_code;
+map<string, int> name_code;
+map<int, string> code_name;
 int dist[1000], prevPath[1000];
 int route[1000][1000], st;
 
@@ -43,19 +43,19 @@ class Graph {
 		}
 		void showPath(int dest) {
 				if(dest == st) {
-					cout<<name_code[st]<<endl;
+					cout<<code_name[st]<<endl;
 					return;
 				}
 				else {
 					showPath(prevPath[dest]);
 					if(route[dest][prevPath[dest]] != route[prevPath[dest]][prevPath[prevPath[dest]]]) 
 						cout<<"Move to line : "<<route[dest][prevPath[dest]]<<endl;
-					cout << name_code[dest] << endl;
+					cout << code_name[dest] << endl;
 				}
 		}
 		void showHalteList() {
 			cout << "Halte list:\n";
-			for(map<int, string>::iterator i = name_code.begin(); i != name_code.end(); i++) cout << i->second << endl;
+			for(map<int, string>::iterator i = code_name.begin(); i != code_name.end(); i++) cout << i->second << endl;
 		}
 		void nextShuttle() {
 			int hour, min;
@@ -63,60 +63,45 @@ class Graph {
 			struct tm *timeNow = localtime(&t);
 			hour = timeNow->tm_hour;
 			min = timeNow->tm_min;
-			(min < 0) ? cout << "Time now: " << hour << ":0" << min << endl : cout << "Time now: " << hour << ":" << min << endl;
-			if(min > 0 && min < 15) cout << "Your next shuttle will be on: " << hour << ":15" << endl;
-			else if(min > 15 && min < 30) cout << "Your next shuttle will be on: " << hour << ":30" << endl;
-			else if(min > 30 && min < 45) cout << "Your next shuttle will be on: " << hour << ":45" << endl;
-			else if(min == 0 || min == 15 || min == 30 || min == 45) cout << "Your shuttle has arrived!\n";
-			else cout << "Your next shuttle will be on: " << hour + 1 << ":00" << endl;
+			(min < 10) ? cout << "Time now: " << hour << ":0" << min << endl : cout << "Time now: " << hour << ":" << min << endl;
+			cout << "Your next bus will be on: ";
+			if(min > 0 && min < 15) cout << hour << ":15" << endl;
+			else if(min > 15 && min < 30) cout << hour << ":30" << endl;
+			else if(min > 30 && min < 45) cout << hour << ":45" << endl;
+			else if(min == 0 || min == 15 || min == 30 || min == 45) cout << "Your bus has arrived!\n";
+			else cout << hour + 1 << ":00" << endl;
 		}
 };
 
 Graph g;
 
 void setup() {
-	string halteInp;
-	int codeInp;
+	string halteInp, halteDestInp;
+	int codeInp, dist, track;
 	
-	/*ifstream inFile("data.txt");
-	while(getline(inFile, halteInp) && inFile >> codeInp) {
-		code_name.insert(pair<string, int>(halteInp, codeInp));
-	}*/
-	code_name.insert(pair<string, int>("Halte 1", 100));
-	code_name.insert(pair<string, int>("Halte 2", 101));
-	code_name.insert(pair<string, int>("Halte 3", 102));
-	code_name.insert(pair<string, int>("Halte 4", 103));
-	code_name.insert(pair<string, int>("Halte 5", 104));
-	code_name.insert(pair<string, int>("Halte 6", 105));
-	code_name.insert(pair<string, int>("Halte 7", 106));
-	code_name.insert(pair<string, int>("Halte 8", 107));
+	ifstream inFile("name_code.txt");
+	while(inFile >> halteInp >> codeInp) {
+		name_code.insert(pair<string, int>(halteInp, codeInp));
+	}
 	
+	ifstream inFile2("code_name.txt");
+	while(inFile2 >> codeInp >> halteInp) {
+		code_name.insert(pair<int, string>(codeInp, halteInp));
+	}	
 	
-	name_code.insert(pair<int, string>(100, "Halte 1"));
-	name_code.insert(pair<int, string>(101, "Halte 2"));
-	name_code.insert(pair<int, string>(102, "Halte 3"));
-	name_code.insert(pair<int, string>(103, "Halte 4"));
-	name_code.insert(pair<int, string>(104, "Halte 5"));
-	name_code.insert(pair<int, string>(105, "Halte 6"));
-	name_code.insert(pair<int, string>(106, "Halte 7"));
-	name_code.insert(pair<int, string>(107, "Halte 8"));
-	
-	
-	g.addEdge(code_name["Halte 1"], code_name["Halte 2"], 103, 1);
-	g.addEdge(code_name["Halte 2"], code_name["Halte 3"], 487, 2);
-	g.addEdge(code_name["Halte 2"], code_name["Halte 5"], 691, 1);
-	g.addEdge(code_name["Halte 3"], code_name["Halte 4"], 326, 3);
-	g.addEdge(code_name["Halte 3"], code_name["Halte 6"], 549, 2);
-	g.addEdge(code_name["Halte 5"], code_name["Halte 7"], 221, 1);
-	g.addEdge(code_name["Halte 4"], code_name["Halte 8"], 1035, 3);
-	g.addEdge(code_name["Halte 7"], code_name["Halte 8"], 947, 1);
+	ifstream inFile3("add_edge.txt");
+	while(inFile3 >> halteInp >> halteDestInp >> dist >> track)  {
+		g.addEdge(name_code[halteInp], name_code[halteDestInp], dist, track);
+	}
 }
 
 int main() {
 	
 	int choice;
+	double totalDist;
 	string halteStart, halteDest;
 	setup();
+				
 	do {
 		cout << "\n--TRANSJAKARTA--\n";
 		cout << "1. List of all halte\n";
@@ -133,41 +118,25 @@ int main() {
 			case 2:
 				cout << "Your location: ";
 				getline(cin, halteStart);
-				st = code_name[halteStart];
+				st = name_code[halteStart];
 				cout << "Your destination: ";
 				getline(cin, halteDest);
 					
-				g.findPath(code_name[halteStart], code_name[halteDest]);
-				cout << "Total Distance: " << dist[code_name[halteDest]] << " km" << endl;
+				g.findPath(name_code[halteStart], name_code[halteDest]);
+				totalDist = dist[name_code[halteDest]];
+				cout << "Total Distance: ";
+				(totalDist < 1000) ?  cout << totalDist << " m\n" : cout << totalDist / 1000 << " km\n";
+				
 				cout << "Path: " << endl;
-				g.showPath(code_name[halteDest]);
+				g.showPath(name_code[halteDest]);
 				break;
 			case 3:
 				g.nextShuttle();
 				break;
 			default:
 				cout << "Thank you for using our app :)\n";
-		}
-			
-				
-	}while(choice != 0);
-	
-//	setup();
-//	
-//	string halteStart, halteDest;
-//	cout << "Halte List:\n";
-//	g.showHalteList();
-//	cout << "Your location: ";
-//	getline(cin, halteStart); 
-//	st = code_name[halteStart];
-//	cout << "Your destination: ";
-//	getline(cin, halteDest);
-//	
-//	g.findPath(code_name[halteStart], code_name[halteDest]);
-//	cout << "Total Distance: " << dist[code_name[halteDest]] << endl;
-//	cout << "Path: "<<endl;
-//	g.showPath(code_name[halteDest]);
+		}	
+	} while(choice != 0);
 	
 	return 0;
-	
 }
