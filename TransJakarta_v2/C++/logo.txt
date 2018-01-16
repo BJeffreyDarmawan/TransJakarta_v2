@@ -1,0 +1,37 @@
+			----------------------------------	---------------------------
+			|				 |	|________________         |		  
+			------------           -----------			 |        |
+			            |	       |			 	 |	  |
+				    |	       |			 	 |	  |
+				    |	       |			 	 |	  |
+				    |	       |			 	 |	  |
+				    |	       |			 	 |	  |
+				    |	       |			 	 |	  |
+				    |	       |				 |	  |
+		 		    |	       |		 		 |	  |
+				    |	       |		 		 |	  |
+				    |	       |		 	         |	  |
+				    |	       |		 	  -------|	  |
+				    ------------		 	  |	 	  |
+									  |_______________|
+
+________________________________________________________________________________________________________________________
+
+--Transjakarta Route Simulator--
+
+o Problem		: Find the most effective and the SHORTEST path
+o Algorithm used	: Dijkstra Algorithm
+
+o How this program works?
+Program will find the SHORTEST PATH between 2 bus stops according to its distance.
+
+----------------------------------------------------------------------------------
+Created by:
+Archel Taneka - 2001585556
+Bernardus Jeffrey - 2001585474
+Firman Maulana - 2001614865
+Mikha Putri -  2001585575 
+Mirna Sumopawiro - 2001586344
+Wilson Fransicius - 2001585303
+
+
