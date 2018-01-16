@@ -86,7 +86,9 @@ class Graph {
 		// show the list of all bus stops
 		void showHalteList() {
 			cout << "Halte list:\n";
-			for(map<int, string>::iterator i = code_name.begin(); i != code_name.end(); i++) cout << i->second << endl;
+			cout << "Halte name" << setw(20) << "Code\n";
+			// set printing format
+			for(map<int, string>::iterator i = code_name.begin(); i != code_name.end(); i++) cout << i->second << setw(28 - i->second.length()) << i->first << endl;
 		}
 		// function to tells user time and when the next bus will be coming
 		void nextShuttle() {
